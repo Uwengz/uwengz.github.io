@@ -1,30 +1,985 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio - Uwengz</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Uwengz | Data Science Portfolio</title>
+
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
   <style>
-    body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; }
-    h1 { color: #333; }
-    h2 { color: #555; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
-    .project { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
-    a { color: #0066cc; }
+    :root{
+      --bg:#08111f;
+      --bg2:#0f172a;
+
+      --primary:#5b8cff;
+      --secondary:#7b61ff;
+      --cyan:#00d9ff;
+
+      --glass:rgba(255,255,255,.08);
+
+      --text:#ffffff;
+      --text-soft:#c8d0e0;
+
+      --border:rgba(255,255,255,.15);
+
+      --shadow:
+      0 10px 30px rgba(0,0,0,.2);
+
+      --radius:22px;
+
+      --gradient:
+      linear-gradient(
+      135deg,
+      #5b8cff,
+      #7b61ff,
+      #00d9ff
+      );
+
+      --transition:.35s ease;
+    }
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      font-family:Arial, Helvetica, sans-serif;
+      background:
+      radial-gradient(circle at top left,#143b89 0%, transparent 30%),
+      radial-gradient(circle at bottom right,#5329b4 0%, transparent 30%),
+      var(--bg);
+
+      color:white;
+      overflow-x:hidden;
+    }
+
+    section{
+      padding:100px 8%;
+      position:relative;
+      z-index:2;
+    }
+
+    img{
+      width:100%;
+      display:block;
+    }
+
+    .container{
+      max-width:1200px;
+      margin:auto;
+    }
+
+    .blob{
+      position:fixed;
+      width:300px;
+      height:300px;
+      filter:blur(80px);
+      opacity:.25;
+      z-index:0;
+      border-radius:50%;
+      animation:float 8s infinite ease-in-out;
+    }
+
+    .blob1{
+      background:#5b8cff;
+      top:-50px;
+      left:-80px;
+    }
+
+    .blob2{
+      background:#7b61ff;
+      right:-80px;
+      bottom:10%;
+      animation-delay:2s;
+    }
+
+    @keyframes float{
+      0%,100%{
+        transform:translateY(0);
+      }
+      50%{
+        transform:translateY(-30px);
+      }
+    }
+
+
+    .particles span{
+      position:fixed;
+      width:5px;
+      height:5px;
+      background:white;
+      border-radius:50%;
+      opacity:.25;
+      animation:particle 18s linear infinite;
+      z-index:0;
+    }
+
+    @keyframes particle{
+      from{
+        transform:translateY(100vh);
+      }
+      to{
+        transform:translateY(-100px);
+      }
+    }
+
+    /* ==========================
+       NAVBAR
+    ========================== */
+
+    nav{
+      position:fixed;
+      width:100%;
+      top:0;
+      left:0;
+
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+
+      padding:18px 8%;
+
+      z-index:1000;
+
+      transition:var(--transition);
+    }
+
+    nav.scrolled{
+      background:rgba(10,15,30,.6);
+
+      backdrop-filter:blur(15px);
+
+      border-bottom:1px solid rgba(255,255,255,.1);
+    }
+
+    .logo{
+      font-size:24px;
+      font-weight:bold;
+
+      background:var(--gradient);
+
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+
+    nav ul{
+      display:flex;
+      gap:30px;
+      list-style:none;
+    }
+
+    nav a{
+      color:white;
+      text-decoration:none;
+      transition:.3s;
+      position:relative;
+    }
+
+    nav a:hover,
+    nav a.active{
+      color:var(--cyan);
+    }
+
+    nav a.active::after{
+      content:"";
+      width:100%;
+      height:2px;
+      background:var(--cyan);
+      position:absolute;
+      bottom:-6px;
+      left:0;
+    }
+
+
+
+    .hero{
+      min-height:100vh;
+
+      display:grid;
+      grid-template-columns:1fr 1fr;
+
+      align-items:center;
+      gap:50px;
+    }
+
+    .hero h1{
+      font-size:56px;
+      line-height:1.2;
+      margin-bottom:20px;
+    }
+
+    .typing{
+      color:var(--cyan);
+      min-height:40px;
+      font-size:22px;
+      margin-bottom:18px;
+    }
+
+    .hero p{
+      color:var(--text-soft);
+      line-height:1.8;
+      margin-bottom:30px;
+    }
+
+    .hero-buttons{
+      display:flex;
+      gap:20px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      padding:14px 24px;
+
+      border-radius:14px;
+
+      border:none;
+
+      background:var(--gradient);
+
+      color:white;
+
+      text-decoration:none;
+
+      transition:var(--transition);
+
+      box-shadow:0 0 25px rgba(91,140,255,.4);
+    }
+
+    .btn:hover{
+      transform:translateY(-5px);
+    }
+
+    .btn-outline{
+      background:transparent;
+      border:1px solid rgba(255,255,255,.2);
+      backdrop-filter:blur(10px);
+    }
+
+    .hero-img img{
+      border-radius:30px;
+      box-shadow:var(--shadow);
+    }
+
+
+    .glass{
+      background:var(--glass);
+
+      border:1px solid var(--border);
+
+      backdrop-filter:blur(16px);
+
+      border-radius:var(--radius);
+
+      box-shadow:var(--shadow);
+    }
+
+    /* ==========================
+       ABOUT
+    ========================== */
+
+    .about-card{
+      padding:40px;
+
+      display:flex;
+
+      gap:20px;
+
+      align-items:flex-start;
+    }
+
+    .about-card i{
+      font-size:40px;
+      color:var(--cyan);
+    }
+
+
+    .section-title{
+      font-size:36px;
+      margin-bottom:50px;
+      text-align:center;
+    }
+
+    .skills-grid{
+      display:grid;
+
+      grid-template-columns:
+      repeat(auto-fit,minmax(220px,1fr));
+
+      gap:25px;
+    }
+
+    .skill-card{
+      padding:25px;
+
+      transition:var(--transition);
+
+      position:relative;
+
+      overflow:hidden;
+    }
+
+    .skill-card:hover{
+      transform:translateY(-8px);
+
+      box-shadow:
+      0 0 25px rgba(0,217,255,.25);
+    }
+
+    .skill-card i{
+      font-size:32px;
+      margin-bottom:15px;
+      color:var(--cyan);
+    }
+
+    .progress{
+      height:8px;
+      background:rgba(255,255,255,.1);
+      border-radius:20px;
+      overflow:hidden;
+      margin-top:15px;
+    }
+
+    .bar{
+      height:100%;
+      background:var(--gradient);
+    }
+
+
+    .projects-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+      gap:30px;
+    }
+
+    .project-card{
+      overflow:hidden;
+
+      transition:var(--transition);
+    }
+
+    .project-card:hover{
+      transform:translateY(-10px);
+
+      box-shadow:
+      0 0 35px rgba(91,140,255,.3);
+    }
+
+    .project-content{
+      padding:25px;
+    }
+
+    .badge-wrap{
+      display:flex;
+      gap:10px;
+      margin:15px 0;
+      flex-wrap:wrap;
+    }
+
+    .badge{
+      padding:8px 12px;
+
+      border-radius:999px;
+
+      background:
+      rgba(91,140,255,.15);
+
+      border:1px solid rgba(255,255,255,.1);
+
+      font-size:13px;
+    }
+
+
+    .contact-card{
+      padding:35px;
+
+      text-align:center;
+    }
+
+    .contact-card i{
+      font-size:50px;
+      color:var(--cyan);
+      margin-bottom:20px;
+    }
+
+
+    footer{
+      text-align:center;
+
+      padding:35px;
+
+      color:#b8c2d9;
+
+      border-top:1px solid rgba(255,255,255,.1);
+    }
+
+
+    .reveal{
+      opacity:0;
+
+      transform:translateY(50px);
+
+      transition:1s;
+    }
+
+    .reveal.active{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+
+    .top-btn{
+      position:fixed;
+
+      right:25px;
+      bottom:25px;
+
+      width:55px;
+      height:55px;
+
+      border:none;
+
+      border-radius:50%;
+
+      background:var(--gradient);
+
+      color:white;
+
+      display:none;
+
+      cursor:pointer;
+
+      z-index:999;
+    }
+
+
+    @media(max-width:900px){
+
+      .hero{
+        grid-template-columns:1fr;
+      }
+
+      .hero h1{
+        font-size:42px;
+      }
+
+      nav ul{
+        gap:15px;
+        font-size:14px;
+      }
+
+    }
+
   </style>
 </head>
+
 <body>
-  <h1>Hi, saya Uwengz 👋</h1>
-  <p>Mahasiswa Statistika yang tertarik di bidang Data Science & Machine Learning.</p>
 
-  <h2>Proyek</h2>
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
 
-  <div class="project">
-    <h3>Analisis Faktor Sosial Ekonomi BPS terhadap IPM menggunakan MLP</h3>
-    <p>Menganalisis hubungan faktor sosial ekonomi dengan IPM menggunakan MLP Regressor. Model mencapai R² = 0.955.</p>
-    <a href="https://github.com/Uwengz/analisis-faktor-sosial-ekonomi-ipm-mlp" target="_blank">Lihat di GitHub →</a>
+  <div class="particles">
+    <span style="left:10%"></span>
+    <span style="left:30%"></span>
+    <span style="left:55%"></span>
+    <span style="left:80%"></span>
   </div>
 
-  <h2>Kontak</h2>
-  <p>GitHub: <a href="https://github.com/Uwengz">github.com/Uwengz</a></p>
+
+  <nav id="navbar">
+
+    <div class="logo">Uwengz</div>
+
+    <ul>
+
+      <li><a href="#home" class="nav-link active">Home</a></li>
+
+      <li><a href="#about" class="nav-link">About</a></li>
+
+      <li><a href="#skills" class="nav-link">Skills</a></li>
+
+      <li><a href="#projects" class="nav-link">Projects</a></li>
+
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+
+    </ul>
+
+  </nav>
+
+
+  <section id="home">
+
+    <div class="container hero">
+
+      <div>
+
+        <h1>
+          Hi, saya Samuel Christian Yesaya 👋
+        </h1>
+
+        <div class="typing"></div>
+
+        <p>
+
+          Tertarik pada Data Science,
+          Data Analyst,
+          Machine Learning,
+          Statistik,
+          dan Analisis Data.
+
+        </p>
+
+        <div class="hero-buttons">
+
+          <a href="#projects"
+            class="btn">
+            View Project
+          </a>
+
+          <a href="https://github.com/Uwengz"
+            target="_blank"
+            class="btn btn-outline">
+
+            GitHub
+
+          </a>
+
+        </div>
+
+      </div>
+
+      <div class="hero-img">
+
+        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200"
+          alt="Data Scientist">
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section id="about"
+    class="reveal">
+
+    <div class="container">
+
+      <h2 class="section-title">
+        About Me
+      </h2>
+
+      <div class="about-card glass">
+
+        <i class="fa-solid fa-chart-line"></i>
+
+        <div>
+
+          <p>
+
+            Saya merupakan mahasiswa Statistika yang memiliki ketertarikan pada Data Science,
+            Machine Learning,
+            analisis data,
+            dan pemrograman.
+
+          </p>
+
+          <br>
+
+          <p>
+
+            Berpengalaman mengerjakan proyek berbasis statistik,
+            visualisasi data,
+            dan machine learning.
+
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section id="skills"
+    class="reveal">
+
+    <div class="container">
+
+      <h2 class="section-title">
+
+        Skills
+
+      </h2>
+
+      <div class="skills-grid">
+
+        <div class="skill-card glass">
+          <i class="fa-brands fa-python"></i>
+          <h3>Python</h3>
+          <div class="progress">
+            <div class="bar"
+              style="width:90%"></div>
+          </div>
+        </div>
+
+        <div class="skill-card glass">
+          <i class="fa-solid fa-square-root-variable"></i>
+          <h3>Statistics</h3>
+          <div class="progress">
+            <div class="bar"
+              style="width:92%"></div>
+          </div>
+        </div>
+
+        <div class="skill-card glass">
+          <i class="fa-solid fa-brain"></i>
+          <h3>Machine Learning</h3>
+          <div class="progress">
+            <div class="bar"
+              style="width:85%"></div>
+          </div>
+        </div>
+
+        <div class="skill-card glass">
+          <i class="fa-solid fa-chart-column"></i>
+          <h3>Data Analysis</h3>
+          <div class="progress">
+            <div class="bar"
+              style="width:88%"></div>
+          </div>
+        </div>
+
+        <div class="skill-card glass">
+          <i class="fa-solid fa-file-excel"></i>
+          <h3>Excel</h3>
+          <div class="progress">
+            <div class="bar"
+              style="width:90%"></div>
+          </div>
+        </div>
+
+        <div class="skill-card glass">
+          <i class="fa-solid fa-database"></i>
+          <h3>SQL</h3>
+          <div class="progress">
+            <div class="bar"
+              style="width:75%"></div>
+          </div>
+        </div>
+
+        <div class="skill-card glass">
+          <i class="fa-solid fa-chart-pie"></i>
+          <h3>Data Visualization</h3>
+          <div class="progress">
+            <div class="bar"
+              style="width:87%"></div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section id="projects"
+    class="reveal">
+
+    <div class="container">
+
+      <h2 class="section-title">
+
+        Projects
+
+      </h2>
+
+      <div class="projects-grid">
+
+        <!-- Tambah project baru cukup copy card ini -->
+
+        <div class="project-card glass">
+
+          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200">
+
+          <div class="project-content">
+
+            <h3>
+
+              Analisis Faktor Sosial Ekonomi BPS terhadap IPM menggunakan MLP
+
+            </h3>
+
+            <br>
+
+            <p>
+
+              Menganalisis hubungan faktor sosial ekonomi dengan IPM menggunakan MLP Regressor.
+              Model mencapai performa R² = 0.955.
+
+            </p>
+
+            <div class="badge-wrap">
+
+              <span class="badge">
+                Machine Learning
+              </span>
+
+              <span class="badge">
+                MLP
+              </span>
+
+              <span class="badge">
+                Regression
+              </span>
+
+            </div>
+
+            <a class="btn"
+
+              target="_blank"
+
+              href="https://github.com/Uwengz/analisis-faktor-sosial-ekonomi-ipm-mlp">
+
+              GitHub
+
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section id="contact"
+    class="reveal">
+
+    <div class="container">
+
+      <h2 class="section-title">
+
+        Contact
+
+      </h2>
+
+      <div class="contact-card glass">
+
+        <i class="fa-brands fa-github"></i>
+
+        <h3>GitHub</h3>
+
+        <br>
+
+        <a class="btn"
+
+          target="_blank"
+
+          href="https://github.com/Uwengz">
+
+          github.com/Uwengz
+
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <footer>
+
+    © 2026 Uwengz Portfolio
+
+    <br><br>
+
+    Built with HTML CSS JavaScript
+
+  </footer>
+
+
+  <button class="top-btn"
+    id="topBtn">
+
+    ↑
+
+  </button>
+
+  <script>
+
+
+    const nav=document.getElementById("navbar");
+
+    window.addEventListener(
+      "scroll",
+      ()=>{
+
+      nav.classList.toggle(
+        "scrolled",
+        window.scrollY>50
+      );
+
+    });
+
+
+    const reveals=
+    document.querySelectorAll(
+      ".reveal"
+    );
+
+    function reveal(){
+
+      reveals.forEach(el=>{
+
+        const top=
+        el.getBoundingClientRect()
+        .top;
+
+        if(top<window.innerHeight-100){
+
+          el.classList.add(
+            "active"
+          );
+
+        }
+
+      });
+
+    }
+
+    window.addEventListener(
+      "scroll",
+      reveal
+    );
+
+    reveal();
+
+
+    const text=
+    "Mahasiswa Statistika | Data Science Enthusiast";
+
+    let i=0;
+
+    function typing(){
+
+      if(i<text.length){
+
+        document.querySelector(
+          ".typing"
+        ).innerHTML+=text.charAt(i);
+
+        i++;
+
+        setTimeout(
+          typing,
+          60
+        );
+
+      }
+
+    }
+
+    typing();
+
+
+    const topBtn=
+    document.getElementById(
+      "topBtn"
+    );
+
+    window.addEventListener(
+      "scroll",
+      ()=>{
+
+      topBtn.style.display=
+      window.scrollY>400
+      ?"block"
+      :"none";
+
+    });
+
+    topBtn.onclick=
+    ()=>{
+
+      window.scrollTo({
+        top:0,
+        behavior:"smooth"
+      });
+
+    };
+
+    /* ACTIVE NAV */
+
+    const sections=
+    document.querySelectorAll(
+      "section"
+    );
+
+    const links=
+    document.querySelectorAll(
+      ".nav-link"
+    );
+
+    window.addEventListener(
+      "scroll",
+      ()=>{
+
+      let current="";
+
+      sections.forEach(sec=>{
+
+        const top=
+        sec.offsetTop;
+
+        if(
+          pageYOffset>=
+          top-150
+        ){
+
+          current=
+          sec.id;
+
+        }
+
+      });
+
+      links.forEach(link=>{
+
+        link.classList.remove(
+          "active"
+        );
+
+        if(
+          link.href.includes(
+            current
+          )
+        ){
+
+          link.classList.add(
+            "active"
+          );
+
+        }
+
+      });
+
+    });
+
+  </script>
+
 </body>
 </html>
